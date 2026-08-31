@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Move Xpress BD | Movement Service (Trucks & Vans)</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070a12;
+      --panel:#0d1326;
+      --panel2:#0b1020;
+      --text:#eaf0ff;
+      --muted:#a8b3d8;
+      --brand:#4f8cff;
+      --brand2:#8a5bff;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:"Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(79,140,255,.35), transparent 60%),
+        radial-gradient(1000px 600px at 110% 0%, rgba(138,91,255,.30), transparent 60%),
+        radial-gradient(900px 500px at 50% 110%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(180deg, #050713, #070a12 35%, #060813);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Layout helpers */
+    .container{
+      width:min(1180px, 92vw);
+      margin-inline:auto;
+    }
+    .section{
+      padding:78px 0;
+      position:relative;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .chip{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255, 119, 0, 0.633);
+      background: rgba(0, 0, 0, 0.311);
+      color: var(--muted);
+      font-weight:600;
+      font-size:13px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 0 0 6px rgba(79,140,255,.15);
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:18px;
+
+      /* IMPORTANT: helps mobile/tablet wrapping cleanly */
+      flex-wrap: wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+      flex-shrink: 0;
+      min-width: 220px;
+    }
+
+    nav ul{
+      display:flex;
+      gap:18px;
+      list-style:none;
+      padding:0;margin:0;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      color:var(--muted);
+      font-weight:700;
+      font-size:14px;
+      padding:10px 10px;
+      border-radius:12px;
+      transition: .2s ease;
+    }
+    nav a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+    }
+    .cta{
+      display:flex; gap:12px; align-items:center;
+      flex-shrink:0;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid rgba(192, 16, 16, 0.738);
+      background: rgba(255, 0, 0, 0.05);
+      color:var(--text);
+      font-weight:800;
+      font-size:14px;
+      transition: .2s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 45px rgba(79,140,255,.28);
+    }
+
+    /* Hero */
+    .hero{ padding:34px 0 64px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:24px;
+      align-items:stretch;
+    }
+    .hero-left{
+      padding:26px 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-left::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(400px 200px at 20% 0%, rgba(79,140,255,.20), transparent 60%),
+        radial-gradient(350px 200px at 80% 20%, rgba(138,91,255,.18), transparent 55%);
+      pointer-events:none;
+    }
+    .hero-left > *{position:relative}
+    .hero h1{
+      font-size: clamp(30px, 4.4vw, 54px);
+      line-height: 1.06;
+      margin:14px 0 10px;
+      letter-spacing: -0.6px;
+    }
+    .hero h1 .grad{
+      background: linear-gradient(135deg, #cfe2ff, #ffffff, #d8ccff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .sub{
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 0 0 18px;
+      max-width: 60ch;
+    }
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .badges{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    /* Animated text (typing) */
+    .typing-wrap{
+      margin-top: 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .typing{
+      display:inline-block;
+      font-weight:900;
+      color: var(--text);
+      padding:8px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+    }
+    .cursor{
+      display:inline-block;
+      width:10px;
+      height:20px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      border-radius:6px;
+      transform: translateY(3px);
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+    /* Slider */
+    .slider{
+      padding:16px;
+      overflow:hidden;
+      position:relative;
+      min-height: 420px;
+    }
+    .slider .frame{
+      border-radius: calc(var(--radius) - 4px);
+      overflow:hidden;
+      position:relative;
+      height: 100%;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
+    .slides{ position:absolute; inset:0; }
+    .slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transform: scale(1.02);
+      transition: opacity .9s ease, transform 1.2s ease;
+      background-size: cover;
+      background-position:center;
+      filter: saturate(1.08) contrast(1.02);
+    }
+    .slide.active{ opacity:1; transform: scale(1); }
+    .slide::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(7,10,18,.10), rgba(7,10,18,.60)),
+        radial-gradient(500px 250px at 30% 10%, rgba(79,140,255,.25), transparent 60%),
+        radial-gradient(500px 250px at 80% 30%, rgba(138,91,255,.20), transparent 60%);
+    }
+    .slider-ui{
+      position:absolute;
+      left:14px; right:14px; bottom:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      z-index:2;
+    }
+    .slider-title{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(7,10,18,.45);
+      backdrop-filter: blur(8px);
+      max-width: 70%;
+    }
+    .slider-title strong{display:block;font-size:14px}
+    .slider-title span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+    .dots{
+      display:flex; gap:8px; align-items:center;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(7,10,18,.45);
+      backdrop-filter: blur(8px);
+    }
+    .dots button{
+      width:9px;height:9px;border-radius:999px;
+      border:0;
+      background: rgba(255,255,255,.35);
+      cursor:pointer;
+      padding:0;
+      transition:.2s ease;
+    }
+    .dots button[aria-current="true"]{
+      width:22px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+    }
+
+    /* Section headings */
+    .sec-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom: 18px;
+    }
+    .sec-head h2{
+      margin:0;
+      font-size: 28px;
+      letter-spacing:-.3px;
+    }
+    .sec-head p{
+      margin:0;
+      color: var(--muted);
+      max-width: 70ch;
+      line-height:1.7;
+    }
+
+    /* Founders */
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
+    .founder{
+      padding: 22px;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      min-height: 220px;
+      overflow:hidden;
+      position:relative;
+    }
+    .founder::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(320px 220px at 10% 10%, rgba(79,140,255,.16), transparent 60%),
+        radial-gradient(320px 220px at 90% 30%, rgba(138,91,255,.12), transparent 62%);
+      pointer-events:none;
+    }
+    .founder > *{position:relative}
+    .founder-photo{
+      width: 150px;
+      height: 150px;
+      flex: 0 0 150px;
+      border-radius: 24px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(135deg, rgba(79,140,255,.18), rgba(138,91,255,.18));
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
+    .founder-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .45s ease;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .founder:hover .founder-photo img{transform: scale(1.08)}
+    .founder-info h3{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+    }
+    .founder-info p{
+      margin: 8px 0 12px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .founder-tags{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    /* Counters */
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .stat{
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .stat::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(220px 140px at 20% 0%, rgba(79,140,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .stat > *{position:relative}
+    .stat .num{
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    /* Timetable */
+    .table-wrap{
+      overflow:hidden;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+
+      /* IMPORTANT: mobile horizontal scroll */
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border-radius: var(--radius);
+
+      /* IMPORTANT: keep columns readable on small screens */
+      min-width: 640px;
+    }
+    th, td{
+      padding:14px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      text-align:left;
+      font-weight:700;
+      white-space: nowrap;
+    }
+    th{color:#dbe7ff;background: rgba(255,255,255,.04)}
+    td{color:var(--muted);font-weight:650}
+    tr:last-child td{border-bottom:none}
+    .open{color:#d7ffe6}
+    .closed{color:#ffd9d9}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      font-size:12px;
+      font-weight:900;
+      color:var(--text);
+    }
+    .badge i{
+      width:8px;height:8px;border-radius:999px;display:inline-block;
+    }
+    .badge .g{background: var(--ok); box-shadow: 0 0 0 5px rgba(34,197,94,.15)}
+    .badge .y{background: var(--warn); box-shadow: 0 0 0 5px rgba(245,158,11,.15)}
+    .badge .r{background: #ef4444; box-shadow: 0 0 0 5px rgba(239,68,68,.15)}
+
+    /* Current time pill + highlight */
+    .now-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap: wrap;
+      margin-top:12px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(79,140,255,.16));
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+      font-weight:900;
+      color: var(--text);
+      width: fit-content;
+      max-width: 100%;
+    }
+    .now-pill span{
+      color: var(--muted);
+      font-weight:800;
+    }
+    .table-wrap tr.today td{
+      background: rgba(34,197,94,.10);
+    }
+    .table-wrap tr.today td:first-child{
+      position:relative;
+    }
+    .table-wrap tr.today td:first-child::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:10px;
+      bottom:10px;
+      width:4px;
+      border-radius:999px;
+      background: linear-gradient(180deg, #22c55e, #16a34a);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.12);
+    }
+    .today-tag{
+      margin-left:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(34,197,94,.35);
+      background: rgba(34,197,94,.12);
+      color: #d7ffe6;
+      font-weight:1000;
+      font-size:12px;
+    }
+
+    /* Truck types */
+    .types{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top: 18px;
+    }
+    .type{ padding:18px; }
+    .type-img{
+      height: 170px;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      margin-bottom: 14px;
+      position:relative;
+    }
+    .type-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform: scale(1.02);
+      transition: transform .45s ease;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .type:hover .type-img img{transform: scale(1.08)}
+    .type-img::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(7,10,18,.05), rgba(7,10,18,.40));
+      pointer-events:none;
+    }
+    .type h3{margin:10px 0 6px;font-size:16px}
+    .type p{margin:0;color:var(--muted);line-height:1.65;font-weight:650}
+    .icon{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: linear-gradient(135deg, rgba(79,140,255,.18), rgba(138,91,255,.18));
+      border:1px solid rgba(255,255,255,.14);
+    }
+
+    /* Gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+    .gitem{
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      min-height: 180px;
+      background: rgba(255,255,255,.03);
+    }
+    .gitem img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform: scale(1.02);
+      transition: transform .45s ease;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .gitem:hover img{transform: scale(1.08)}
+    .g1{grid-column: span 5;}
+    .g2{grid-column: span 4;}
+    .g3{grid-column: span 3;}
+    .g4{grid-column: span 4;}
+    .g5{grid-column: span 4;}
+    .g6{grid-column: span 4;}
+
+    /* Footer */
+    footer{
+      padding: 28px 0 46px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+    }
+    .foot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .foot strong{color:var(--text)}
+
+    /* ---------- Responsive improvements ---------- */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr; }
+      .slider{min-height: 360px}
+      .stats{grid-template-columns: repeat(2, 1fr)}
+      .types{grid-template-columns: 1fr}
+      .grid-2{grid-template-columns: 1fr}
+      .g1,.g2,.g3,.g4,.g5,.g6{grid-column: span 12;}
+      .founder{ min-height: unset; align-items:flex-start; }
+      .type-img{height: 210px;}
+    }
+
+    /* Hide the long nav menu earlier so button/logo stay nice on small screens */
+    @media (max-width: 860px){
+      nav{display:none;}
+      .nav{justify-content:space-between;}
+    }
+
+    @media (max-width: 720px){
+      .section{padding:64px 0;}
+      .sec-head{
+        flex-direction: column;
+        align-items:flex-start;
+      }
+      .sec-head p{max-width: 100%;}
+      .now-pill{width: 100%;}
+      .hero-left{padding:22px 18px;}
+    }
+
+    @media (max-width: 520px){
+      .section{padding:56px 0;}
+      .btn{padding:10px 12px; font-size:13px;}
+      .slider-title{max-width: 62%}
+      .founder{flex-direction: column;}
+      .founder-photo{width: 100%; height: 240px; flex:auto;}
+      table{min-width: 560px;}
+      th,td{padding:12px 12px; font-size:13px;}
+      .now-pill{font-size: 13px; padding:10px 12px;}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="Move Xpress BD Home">
+        <img
+          src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/772824230_122168481368965416_5657058058940570943_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s1254x1254&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF2SGiNrLPJ7iVH76eKLxsL94Rvb2UGux_3hG9vZQa7HwSH4IGZ0LNlMbG-zWDnbKNx_JZXXY7L45nTFPUfn_KB&_nc_ohc=eatLiCIDip4Q7kNvwHlrm_G&_nc_oc=AdrcjIMFn34LS0NsFwGGltDxw8ye5hANbdXeTAX-6jLkpZS8jPi5uUbo2Hhra5fVbiA&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=0_P99vBDj1wWTlYJcyjI6A&_nc_ss=7b2a8&oh=00_AQKNsZ-3-HxZ2_MeEhMoijlPWpj9Hf0io6eloeiGotF0lg&oe=6A99A86C"
+          alt="Move Xpress BD Logo"
+          style="
+            width:38px;
+            height:38px;
+            border-radius:12px;
+            object-fit:cover;
+            display:block;
+            box-shadow:0 14px 35px rgba(79,140,255,.25);
+            border:1px solid rgba(255,255,255,.14);
+            background:linear-gradient(135deg, #4f8cff, #8a5bff);
+          "
+        />
+        <div>
+          <div style="font-size:15px;line-height:1.1">Move Xpress BD</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:750;line-height:1.2">
+            Movement Service
+          </div>
+        </div>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#founders">Founders</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#timetable">Timetable</a></li>
+          <li><a href="#types">Truck Types</a></li>
+          <li><a href="#gallery">Photos</a></li>
+        </ul>
+        
+      </nav>
+      
+
+      <div class="cta">
+        <a class="btn primary" href="/order">Order Now!</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home" class="hero section">
+    <div class="container hero-grid">
+      <!-- Left: animated text -->
+      <section class="hero-left card">
+        <span class="chip"><span class="dot"></span> Fast • Safe • On-time Delivery</span>
+
+        <h1>
+          Move anything in Bangladesh with
+          <span class="grad">Move Xpress BD</span>
+        </h1>
+
+        <p class="sub">
+          We provide professional movement services for homes, offices, shops, and warehouses.
+          Reliable trucks & vans, skilled labor, careful packing, and smooth delivery—every time.
+        </p>
+
+        <div class="typing-wrap" aria-label="Services rotating text">
+          <span>We move:</span>
+          <span class="typing" id="typingText">Home Shifting</span>
+          <span class="cursor" aria-hidden="true"></span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="/order">Order Now!</a>
+          <a class="btn" href="#types">Explore Trucks</a>
+        </div>
+
+        <div class="badges">
+          <span class="chip">Careful Handling</span>
+          <span class="chip">Experienced Drivers</span>
+          <span class="chip">Support Team</span>
+          <span class="chip">Over The Bangladesh</span>
+          <span class="chip">Trusted</span>
+          <span class="chip">Cooperative</span>
+        </div>
+      </section>
+
+      <!-- Right: animated image slider -->
+      <aside class="slider card" aria-label="Move Xpress BD Image Slider">
+        <div class="frame" role="region" aria-roledescription="carousel" aria-label="Fleet and services">
+          <div class="slides" id="slides">
+            <div class="slide active" data-title="Truck & Driver Ready"
+              data-sub="Fast pickup, safe delivery"
+              style="background-image:url('https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/788716361_122110537053435304_8880831957912182517_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=uD4rj8cF12UQ7kNvwH7OCTb&_nc_oc=AdqRkLtfHJV2JTzsTk5oFunyvxHpb9s64htmdx2Rtlmzj6Vxm7rDcoiq2Fi5czEuau0&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=9VftsRuVz4F2px1DkQtqRg&_nc_ss=7b2a8&oh=00_AQLvB9M77Vn0HY5nSDgzYvMl_6mVThMqqrGIlqqAF3iksA&oe=6A9B65F0');"></div>
+
+            <div class="slide" data-title="City & Highway Movement"
+              data-sub="Office, home, and shop shifting"
+              style="background-image:url('https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/789652157_122110535547435304_7077168580947084079_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=BN74idtWumYQ7kNvwHxRjc5&_nc_oc=Adovt2zNub8_RKn800XORVYP8LB3iFrkkWbCZNGWKW3QTyq0chpbj0GR1ZXgW8Mmt-A&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=gOly74Un_o5plrY_SnHakw&_nc_ss=7b2a8&oh=00_AQLS6m2DWS34DiyOPg-IhSnAgOahvoVG3DlaIYZiPPH5QA&oe=6A9B4E14');"></div>
+
+            <div class="slide" data-title="Vans for Quick Jobs"
+              data-sub="Small to medium loads"
+              style="background-image:url('https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/785195057_122110541055435304_5289414102641756317_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=0q0Xm3dDyIkQ7kNvwH_11dR&_nc_oc=AdqZfmo00LbAJEMH3N2OBQOSofzTHNNK12XuIAZsMBU6CMmN4VfosWOSLrjyxbCj5JY&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=2A8zaTSpCv3RszjvI7VDrQ&_nc_ss=7b2a8&oh=00_AQLHMuxSN_oSDgyZD__FTsDlqoaHD05dJRnxYUxR3sASxw&oe=6A9B79B1');"></div>
+
+            <div class="slide" data-title="Careful Loading & Unloading"
+              data-sub="Trained labor support"
+              style="background-image:url('https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/788439494_122110543011435304_1328165391618408763_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=muudOfLQOYIQ7kNvwG_GPnF&_nc_oc=AdriWYIamIbCwds6UvY-EFXW7DTBIBlx3AorRjK40-QZQ9x2GHPYtCNG0hr80PwnSNY&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=wUnFdCs9zUVkHWWt7gXV9g&_nc_ss=7b2a8&oh=00_AQJvOglVRfXqra7chGQrcoeaZ5XqshLKC_uf00KY3ErNoQ&oe=6A9B7056');"></div>
+          </div>
+
+          <div class="slider-ui" aria-hidden="false">
+            <div class="slider-title" id="sliderTitle">
+              <strong>Truck & Driver Ready</strong>
+              <span>Fast pickup, safe delivery</span>
+            </div>
+            <div class="dots" id="dots" aria-label="Slide navigation"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Founders -->
+  <section id="founders" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <h2>Founders</h2>
+        <p>Move Xpress BD is managed by a hands-on team focused on service quality, fleet control, and customer support.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Founder: Rayhan -->
+      <article class="founder card">
+        <!-- Whole card click link -->
+        <a class="card-link" href="/founderrayhan" aria-label="More details about Abu Rayhan"></a>
+
+        <div class="founder-photo">
+          <img src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/753241753_1066090015753335_8489591592419506834_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s1254x1254&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGbKsPYj1kRy3uRJ5AbM57End4DeXEGGcOd3gN5cQYZw6niVUxRvzEyI7DUleTUPFZmVHwHdqGXc_AkFo3UiOuF&_nc_ohc=daV2Yqo6tkIQ7kNvwGaNZnz&_nc_oc=Adp1ltQZhlr8wBjRLwxg9ilLIHwgp1ZB_UeGY4GKa-yssW1W7_LsT9bc-QY3fWsIq4VA&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=_yAHfpQ5L9e5hMo19nfKjQ&_nc_ss=7b2a8&oh=00_AQJJe5FIjCwHwz3iNZLL3TzxyyCg_4pK563C08gc6LIvbw&oe=6A9974F7" alt="Abu Rayhan">
+        </div>
+
+        <div class="founder-info">
+          <h3>Abu Rayhan</h3>
+          <p>Assistant CEO And Technical Manager</p>
+
+          <div class="founder-tags">
+            <span class="chip">Tech Manager</span>
+            <span class="chip">Support</span>
+          </div>
+
+          <!-- More Details Button -->
+          <a class="btn more-details" style="margin-top: 15px;" href="/founderrayhan">More Details</a>
+        </div>
+      </article>
+
+      <!-- Founder: Arafat -->
+      <article class="founder card">
+        <!-- Whole card click link -->
+        <a class="card-link" href="/founderarafat" aria-label="More details about Arafat Hossain"></a>
+
+        <div class="founder-photo">
+          <img src="https://scontent.fdac13-1.fna.fbcdn.net/v/t51.82787-15/775106617_17950696860241045_8402135934524109603_n.webp?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s1080x1080&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHvD3_f_qSBH8-LKYtKg-0aHMq4cslVPzscyrhyyVU_O4pknc-ZnqAx6JlqTBeI8G3DLcrBhNFkMX9II1NzRaCo&_nc_ohc=WDscC8yb4W4Q7kNvwGSE2HQ&_nc_oc=Adq0_ca7YaIoxZ-h_207G55xWMwE1BrkRKPglHHPLH65WxbVE6mm_upxJFeUfAZ8294&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=jkYVIkzrlLotd51moaA3yw&_nc_ss=7b2a8&oh=00_AQKntTEt8CVHa3cPAn__hDlr-ETBMrE70z8U7OiZxw55sA&oe=6A99966F" alt="Arafat Hossain">
+        </div>
+
+        <div class="founder-info">
+          <h3>Arafat Hossain</h3>
+          <p>CEO And Chief Manager</p>
+
+          <div class="founder-tags">
+            <span class="chip">Management</span>
+            <span class="chip">Operations</span>
+          </div>
+
+          <!-- More Details Button -->
+          <a class="btn more-details" style="margin-top: 15px;" href="/founderarafat">More Details</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- Counters -->
+  <section id="stats" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <h2>Service Highlights</h2>
+          <p>These are sample numbers. You can change them anytime from the HTML.</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat card">
+          <div class="num"><span class="counter" data-target="30">0</span>+</div>
+          <div class="label">Total Services Provided</div>
+        </div>
+        <div class="stat card">
+          <div class="num"><span class="counter" data-target="15">0</span>+</div>
+          <div class="label">Trucks & Vans in Fleet</div>
+        </div>
+        <div class="stat card">
+          <div class="num"><span class="counter" data-target="20">0</span>+</div>
+          <div class="label">Skilled Labor Available</div>
+        </div>
+        <div class="stat card">
+          <div class="num"><span class="counter" data-target="24">0</span>/7</div>
+          <div class="label">Phone/WhatsApp Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekly timetable -->
+  <section id="timetable" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <h2>Weekly Time Table</h2>
+          <p>Opening and closing hours (adjust as needed). Emergency moves can be scheduled outside hours.</p>
+          <div id="nowPill" class="now-pill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="table-wrap card">
+        <table aria-label="Weekly opening and closing hours">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Status</th>
+              <th>Opening</th>
+              <th>Closing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Saturday</td>
+              <td><span class="badge"><i class="y"></i> Limited</span></td>
+              <td class="open">11:00 AM</td>
+              <td class="open">11:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td><span class="badge"><i class="g"></i> Open</span></td>
+              <td class="open">07:00 AM</td>
+              <td class="open">12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Monday</td>
+              <td><span class="badge"><i class="g"></i> Open</span></td>
+              <td class="open">07:00 AM</td>
+              <td class="open">12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Tuesday</td>
+              <td><span class="badge"><i class="g"></i> Open</span></td>
+              <td class="open">07:00 AM</td>
+              <td class="open">12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Wednesday</td>
+              <td><span class="badge"><i class="g"></i> Open</span></td>
+              <td class="open">07:00 AM</td>
+              <td class="open">12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Thursday</td>
+              <td><span class="badge"><i class="g"></i> Open</span></td>
+              <td class="open">07:00 AM</td>
+              <td class="open">12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Friday</td>
+              <td><span class="badge"><i class="y"></i> Limited</span></td>
+              <td class="closed">12:00 PM</td>
+              <td class="closed">10:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:10px 0 0;color:var(--muted);font-weight:700;font-size:13px;line-height:1.6">
+        Tip: On mobile, swipe left/right to view the full timetable.
+      </p>
+    </div>
+  </section>
+
+  <!-- Truck types details -->
+  <section id="types" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <h2>Types of Trucks & Vans</h2>
+          <p>Choose the right vehicle for your move. We help you select based on load size, route, and timing.</p>
+        </div>
+      </div>
+
+      <div class="types">
+        <article class="type card">
+          <div class="type-img">
+            <img loading="lazy"
+                 src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/789652157_122110535547435304_7077168580947084079_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=BN74idtWumYQ7kNvwHxRjc5&_nc_oc=Adovt2zNub8_RKn800XORVYP8LB3iFrkkWbCZNGWKW3QTyq0chpbj0GR1ZXgW8Mmt-A&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=gOly74Un_o5plrY_SnHakw&_nc_ss=7b2a8&oh=00_AQLS6m2DWS34DiyOPg-IhSnAgOahvoVG3DlaIYZiPPH5QA&oe=6A9B4E14"
+                 alt="Mini pickup / small truck">
+          </div>
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M3 7h11v9H3V7Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M14 10h4l3 3v3h-7v-6Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M6.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <h3>Mini Pickup / Small Truck</h3>
+          <p>Best for small home shifting, single-room items, shop stock transfer, and quick city deliveries.</p>
+        </article>
+
+        <article class="type card">
+          <div class="type-img">
+            <img loading="lazy"
+                 src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/790434580_122110532757435304_7264213707677021216_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x1024&ctp=s1536x1024&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=IN2XxJ68BSIQ7kNvwHABCn7&_nc_oc=AdpOnAofc-apMq6Gv7wVjMpDQg55UR8-9PflSHl8VsilgDs_0Cw1dsr5OAhxvIA5Yu4&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=p-FV_Tlo3zTVP87594kbKQ&_nc_ss=7b2a8&oh=00_AQIiKjKSNXhxFgmsP84PhLyKVqWRzKCjmf2mrSctKDVXIA&oe=6A9B4084"
+                 alt="Covered van for secure delivery">
+          </div>
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M2.5 8h13v8h-13V8Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M15.5 10h4.5l1.5 2.2V16h-6V10Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M6.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M3.8 12h10" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <h3>Covered Van (Secure)</h3>
+          <p>Great for electronics, furniture, office files, and fragile items. Helps protect from dust and rain.</p>
+        </article>
+
+        <article class="type card">
+          <div class="type-img">
+            <img loading="lazy"
+                 src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/787523299_122110533819435304_4302255671478150081_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x1024&ctp=s1536x1024&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=HtbyjX04_WcQ7kNvwFo2y8p&_nc_oc=AdrPQdXBxIvq03CSHXPh8l2qaYGQSjmcJLa9-Fr-RZlghlfnmbVfMBR9MZIbaxcXNEs&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=aBr-kw3Pzd6VxV6aj3N_AA&_nc_ss=7b2a8&oh=00_AQLn8ZVrRbT6yXxb2dbactX3SeIKiOfpAUZofKI4dlxthg&oe=6A9B5B5F"
+                 alt="Medium or large cargo truck">
+          </div>
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M3 7h12v10H3V7Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M15 9h3.8L22 12.3V17h-7V9Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M6.5 20a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M18.5 20a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="white" stroke-opacity=".92" stroke-width="1.6"/>
+              <path d="M4.2 10.5h9.6M4.2 13h9.6M4.2 15.5h6.5" stroke="white" stroke-opacity=".92" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <h3>Medium / Large Truck</h3>
+          <p>For full home shifting, warehouse movement, and bulk goods delivery. Ideal for longer routes and heavier loads.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Truck photos -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <h2>Our Truck Photos</h2>
+          <p>Replace these with your real fleet images (recommended size: 1200×800 or higher).</p>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <figure class="gitem g1 card">
+          <img alt="Move Xpress BD truck photo 1" src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/788716361_122110537053435304_8880831957912182517_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=uD4rj8cF12UQ7kNvwH7OCTb&_nc_oc=AdqRkLtfHJV2JTzsTk5oFunyvxHpb9s64htmdx2Rtlmzj6Vxm7rDcoiq2Fi5czEuau0&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=9VftsRuVz4F2px1DkQtqRg&_nc_ss=7b2a8&oh=00_AQLvB9M77Vn0HY5nSDgzYvMl_6mVThMqqrGIlqqAF3iksA&oe=6A9B65F0">
+        </figure>
+        <figure class="gitem g2 card">
+          <img alt="Move Xpress BD truck photo 2" src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/785195057_122110541055435304_5289414102641756317_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=0q0Xm3dDyIkQ7kNvwH_11dR&_nc_oc=AdqZfmo00LbAJEMH3N2OBQOSofzTHNNK12XuIAZsMBU6CMmN4VfosWOSLrjyxbCj5JY&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=2A8zaTSpCv3RszjvI7VDrQ&_nc_ss=7b2a8&oh=00_AQLHMuxSN_oSDgyZD__FTsDlqoaHD05dJRnxYUxR3sASxw&oe=6A9B79B1">
+        </figure>
+        <figure class="gitem g3 card">
+          <img alt="Move Xpress BD truck photo 3" src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/788439494_122110543011435304_1328165391618408763_n.jpg?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=muudOfLQOYIQ7kNvwG_GPnF&_nc_oc=AdriWYIamIbCwds6UvY-EFXW7DTBIBlx3AorRjK40-QZQ9x2GHPYtCNG0hr80PwnSNY&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=wUnFdCs9zUVkHWWt7gXV9g&_nc_ss=7b2a8&oh=00_AQJvOglVRfXqra7chGQrcoeaZ5XqshLKC_uf00KY3ErNoQ&oe=6A9B7056">
+        </figure>
+        <!-- <figure class="gitem g4 card">
+          <img alt="Move Xpress BD truck photo 4" src="">
+        </figure>
+        <figure class="gitem g5 card">
+          <img alt="Move Xpress BD truck photo 5" src="">
+        </figure>
+        <figure class="gitem g6 card">
+          <img alt="Move Xpress BD truck photo 6" src="">
+        </figure> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <strong>Move Xpress BD</strong> — Movement Service (Trucks & Vans)
+      </div>
+      <div>
+        Developed &amp; Engineered by <strong>Tech Manager Abu Rayhan</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Current time + highlight timetable row ----
+    (function(){
+      const nowPill = document.getElementById("nowPill");
+      const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+      function updateNow(){
+        const now = new Date();
+        const dateStr = now.toLocaleDateString(undefined, {
+          weekday: "long", year: "numeric", month: "short", day: "numeric"
+        });
+        const timeStr = now.toLocaleTimeString(undefined, {
+          hour: "2-digit", minute: "2-digit", second: "2-digit"
+        });
+
+        nowPill.innerHTML = `Time Table Of ${dateStr} <span>•</span> ${timeStr}`;
+      }
+
+      function highlightTodayRow(){
+        const today = dayNames[new Date().getDay()];
+        const rows = document.querySelectorAll("#timetable tbody tr");
+
+        rows.forEach(r => r.classList.remove("today"));
+
+        rows.forEach(row => {
+          const firstCell = row.querySelector("td");
+          if(!firstCell) return;
+
+          const cellDay = firstCell.childNodes[0].textContent.trim(); // safer than full textContent
+
+          if(cellDay === today){
+            row.classList.add("today");
+
+            if(!firstCell.querySelector(".today-tag")){
+              const tag = document.createElement("span");
+              tag.className = "today-tag";
+              tag.textContent = "Today";
+              firstCell.appendChild(tag);
+            }
+          } else {
+            const t = firstCell.querySelector(".today-tag");
+            if(t) t.remove();
+          }
+        });
+      }
+
+      updateNow();
+      highlightTodayRow();
+
+      setInterval(updateNow, 1000);
+      setInterval(highlightTodayRow, 60000);
+    })();
+
+    // ---- Typing animation (left side) ----
+    const typingEl = document.getElementById("typingText");
+    const phrases = [
+      "Home Shifting",
+      "Office Shifting",
+      "Shop & Stock Movement",
+      "Warehouse Delivery",
+      "Truck & Van Booking"
+    ];
+    let pIndex = 0, cIndex = 0, deleting = false;
+
+    function typeLoop(){
+      const current = phrases[pIndex];
+      if(!deleting){
+        cIndex++;
+        typingEl.textContent = current.slice(0, cIndex);
+        if(cIndex >= current.length){
+          deleting = true;
+          setTimeout(typeLoop, 1200);
+          return;
+        }
+      } else {
+        cIndex--;
+        typingEl.textContent = current.slice(0, cIndex);
+        if(cIndex <= 1){
+          deleting = false;
+          pIndex = (pIndex + 1) % phrases.length;
+        }
+      }
+      setTimeout(typeLoop, deleting ? 35 : 55);
+    }
+    typeLoop();
+
+    // ---- Slider (right side) ----
+    const slideEls = Array.from(document.querySelectorAll(".slide"));
+    const titleBox = document.getElementById("sliderTitle");
+    const dotsWrap = document.getElementById("dots");
+    let sIndex = 0;
+    let sliderTimer;
+
+    function renderDots(){
+      dotsWrap.innerHTML = "";
+      slideEls.forEach((_, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-label", `Go to slide ${i+1}`);
+        b.setAttribute("aria-current", i === sIndex ? "true" : "false");
+        b.addEventListener("click", () => { goToSlide(i, true); });
+        dotsWrap.appendChild(b);
+      });
+    }
+
+    function setTitle(i){
+      const t = slideEls[i].dataset.title || "Move Xpress BD";
+      const s = slideEls[i].dataset.sub || "Movement service";
+      titleBox.innerHTML = `<strong>${t}</strong><span>${s}</span>`;
+    }
+
+    function goToSlide(i, userAction=false){
+      slideEls[sIndex].classList.remove("active");
+      sIndex = (i + slideEls.length) % slideEls.length;
+      slideEls[sIndex].classList.add("active");
+      setTitle(sIndex);
+      renderDots();
+      if(userAction) restartSlider();
+    }
+
+    function nextSlide(){ goToSlide(sIndex + 1); }
+    function startSlider(){
+      renderDots();
+      setTitle(sIndex);
+      sliderTimer = setInterval(nextSlide, 4200);
+    }
+    function restartSlider(){
+      clearInterval(sliderTimer);
+      sliderTimer = setInterval(nextSlide, 4200);
+    }
+    startSlider();
+
+    // ---- Counters animation (on scroll) ----
+    const counters = document.querySelectorAll(".counter");
+    const animateCounter = (el) => {
+      const target = Number(el.dataset.target || "0");
+      const duration = 1200;
+      const start = performance.now();
+
+      const step = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString();
+        if(t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const el = entry.target;
+          if(!el.dataset.done){
+            el.dataset.done = "1";
+            animateCounter(el);
+          }
+        }
+      });
+    }, { threshold: 0.35 });
+
+    counters.forEach(c => io.observe(c));
+  </script>
+</body>
+</html>

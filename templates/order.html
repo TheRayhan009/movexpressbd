@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Move Xpress BD | Order via WhatsApp</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070a12;
+      --text:#eaf0ff;
+      --muted:#a8b3d8;
+      --brand:#4f8cff;
+      --brand2:#8a5bff;
+      --good:#22c55e;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(79,140,255,.25), transparent 60%),
+        radial-gradient(1000px 600px at 110% 0%, rgba(138,91,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 50% 110%, rgba(34,197,94,.16), transparent 55%),
+        linear-gradient(180deg, #050713, #070a12 35%, #060813);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .container{width:min(1180px, 92vw); margin-inline:auto;}
+    .section{padding:64px 0;}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+      flex-shrink:0;
+      min-width: 240px;
+    }
+    nav{flex:1; display:flex; justify-content:center;}
+    nav ul{
+      display:flex; gap:18px;
+      list-style:none; padding:0; margin:0;
+      align-items:center; flex-wrap:wrap; justify-content:center;
+    }
+    nav a{
+      color:var(--muted);
+      font-weight:700;
+      font-size:14px;
+      padding:10px 10px;
+      border-radius:12px;
+      transition: .2s ease;
+    }
+    nav a:hover{color:var(--text); background: rgba(255,255,255,.06);}
+    .cta{display:flex; gap:12px; align-items:center; flex-shrink:0;}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      font-weight:800;
+      font-size:14px;
+      transition: .2s ease;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--good), #16a34a);
+      box-shadow: 0 18px 45px rgba(34,197,94,.18);
+    }
+    .btn.secondary{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 45px rgba(79,140,255,.20);
+    }
+
+    /* Page header */
+    .page-head{
+      padding: 26px 18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .page-head::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(420px 220px at 10% 0%, rgba(34,197,94,.18), transparent 60%),
+        radial-gradient(420px 220px at 90% 20%, rgba(79,140,255,.16), transparent 62%);
+      pointer-events:none;
+    }
+    .page-head > *{position:relative}
+    h1{
+      margin:0;
+      font-size: clamp(24px, 3.8vw, 40px);
+      letter-spacing:-.5px;
+      line-height:1.1;
+    }
+    .sub{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.7;
+      font-weight:650;
+      max-width:70ch;
+    }
+
+    /* Order board */
+    .order-board{
+      margin-top:18px;
+      padding:18px;
+    }
+    .board-sec{
+      padding:14px 0 18px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .board-sec:first-child{border-top:none; padding-top:6px;}
+    .sec-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:-.2px;
+      margin:0 0 12px;
+      font-size:16px;
+    }
+    .sec-title small{
+      color:var(--muted);
+      font-weight:800;
+      font-size:12px;
+      margin-left:auto;
+    }
+    .ico{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      flex:0 0 34px;
+    }
+
+    .pick-grid{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap:12px;
+    }
+    .pick-btn{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 16px 12px;
+      min-height: 64px;
+      cursor:pointer;
+      transition:.18s ease;
+      text-align:center;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      user-select:none;
+    }
+    .pick-btn span{color:var(--muted); font-weight:900; font-size:12px}
+    .pick-btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .pick-btn.active{
+      border-color: rgba(34,197,94,.60);
+      background: linear-gradient(180deg, rgba(34,197,94,.45), rgba(34,197,94,.18));
+      box-shadow: 0 18px 50px rgba(34,197,94,.16);
+    }
+
+    /* Sliders */
+    .range-row{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    input[type="range"]{
+      width:min(520px, 100%);
+      accent-color: var(--good);
+      cursor:pointer;
+    }
+    .value-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 90px;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-weight:1000;
+    }
+    .help{
+      color:var(--muted);
+      font-weight:700;
+      margin-top:10px;
+      line-height:1.6;
+      font-size:13px;
+    }
+
+    /* Toggle */
+    .toggle{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      width: fit-content;
+    }
+    .toggle input{width:18px;height:18px; accent-color: var(--good);}
+
+    /* Fields */
+    .field-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .field{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .field label{
+      display:block;
+      font-size:12px;
+      font-weight:900;
+      color: var(--muted);
+      margin-bottom:8px;
+    }
+    .field input, .field textarea{
+      width:100%;
+      background: transparent;
+      border:0;
+      outline: none;
+      color: var(--text);
+      font-weight:800;
+      font-size:14px;
+      font-family: inherit;
+    }
+    textarea{min-height: 84px; resize: vertical;}
+
+    /* Map preview */
+    .map-preview{
+      margin-top:10px;
+      display:none;
+      padding:12px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:800;
+      line-height:1.6;
+      word-break: break-word;
+    }
+    .map-preview a{
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight:1000;
+    }
+    .map-preview.show{display:block;}
+
+    /* Bottom actions */
+    .board-actions{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      padding-top: 18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      margin-top: 18px;
+    }
+    .warn{
+      color: #ffd8d8;
+      background: rgba(239,68,68,.10);
+      border: 1px solid rgba(239,68,68,.20);
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight:800;
+      line-height:1.5;
+      max-width: 74ch;
+      display:none;
+    }
+    .warn.show{display:block;}
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open{display:flex;}
+    .modal{
+      width:min(560px, 100%);
+      padding: 18px;
+    }
+    .modal h2{
+      margin:0 0 6px;
+      font-size: 20px;
+      letter-spacing:-.2px;
+    }
+    .modal p{
+      margin:0 0 14px;
+      color: var(--muted);
+      font-weight:700;
+      line-height:1.6;
+      font-size: 13px;
+    }
+    .contact-list{
+      display:grid;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .contact-btn{
+      text-align:left;
+      width:100%;
+      padding:14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .contact-btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .contact-btn strong{display:block; font-size: 14px;}
+    .contact-btn span{display:block; margin-top:4px; color: var(--muted); font-weight:800; font-size: 12px; line-height:1.55;}
+
+    .tag{
+      display:inline-flex;
+      margin-top:10px;
+      padding:8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight:1000;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+    }
+    .tag.good{border-color: rgba(34,197,94,.40); background: rgba(34,197,94,.10)}
+    .tag.bad{border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)}
+
+    .modal-actions{
+      display:flex; justify-content:flex-end; gap:10px; margin-top: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      nav{display:none;}
+      .pick-grid{grid-template-columns: repeat(3, minmax(0, 1fr));}
+      .field-row{grid-template-columns: 1fr;}
+    }
+    @media (max-width: 520px){
+      .pick-grid{grid-template-columns: repeat(2, minmax(0, 1fr));}
+      .btn{padding:10px 12px; font-size:13px;}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Move Xpress BD Home">
+        <img
+          src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/772824230_122168481368965416_5657058058940570943_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s1254x1254&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF2SGiNrLPJ7iVH76eKLxsL94Rvb2UGux_3hG9vZQa7HwSH4IGZ0LNlMbG-zWDnbKNx_JZXXY7L45nTFPUfn_KB&_nc_ohc=eatLiCIDip4Q7kNvwHlrm_G&_nc_oc=AdrcjIMFn34LS0NsFwGGltDxw8ye5hANbdXeTAX-6jLkpZS8jPi5uUbo2Hhra5fVbiA&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=0_P99vBDj1wWTlYJcyjI6A&_nc_ss=7b2a8&oh=00_AQKNsZ-3-HxZ2_MeEhMoijlPWpj9Hf0io6eloeiGotF0lg&oe=6A99A86C"
+          alt="Move Xpress BD Logo"
+          style="
+            width:38px;height:38px;border-radius:12px;object-fit:cover;display:block;
+            box-shadow:0 14px 35px rgba(79,140,255,.25);
+            border:1px solid rgba(255,255,255,.14);
+            background:linear-gradient(135deg, #4f8cff, #8a5bff);
+          "
+        />
+        <div>
+          <div style="font-size:15px;line-height:1.1">Move Xpress BD</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:750;line-height:1.2">
+            Order via WhatsApp
+          </div>
+        </div>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/#types">Truck Types</a></li>
+          <li><a href="/#timetable">Timetable</a></li>
+          <li><a href="/#gallery">Photos</a></li>
+        </ul>
+      </nav>
+
+      <div class="cta">
+        <a class="btn secondary" href="/">Back Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <section class="page-head card">
+        <h1>Set Your Order Conditions</h1>
+        <p class="sub">
+          Select shipment type, truck ton, labor, floors, and (optional) up/down condition.
+          Then send the order directly to WhatsApp.
+        </p>
+      </section>
+
+      <section class="order-board card" aria-label="Order conditions board">
+
+        <!-- Shipment type -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">📦</span>
+            Shipment Type
+            <small>Required</small>
+          </div>
+
+          <div class="pick-grid" data-pick="shipmentType">
+            <button class="pick-btn" type="button" data-value="Home">Home</button>
+            <button class="pick-btn" type="button" data-value="Shop Goods">Shop goods</button>
+            <button class="pick-btn" type="button" data-value="Personal Goods">Personal goods</button>
+            <button class="pick-btn" type="button" data-value="Animal">Animal</button>
+            <button class="pick-btn" type="button" data-value="Other">Other</button>
+          </div>
+        </div>
+
+        <!-- Truck category -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">🚚</span>
+            Truck Category (Ton)
+            <small>Required</small>
+          </div>
+
+          <div class="pick-grid" data-pick="truckTon">
+            <button class="pick-btn" type="button" data-value="1.5"><strong>1.5</strong><span>ton</span></button>
+            <button class="pick-btn" type="button" data-value="3"><strong>3</strong><span>ton</span></button>
+            <button class="pick-btn" type="button" data-value="5"><strong>5</strong><span>ton</span></button>
+            <button class="pick-btn" type="button" data-value="7"><strong>7</strong><span>ton</span></button>
+          </div>
+        </div>
+
+        <!-- Labor -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">🧑‍🔧</span>
+            Labor Needed
+            <small>Max 15</small>
+          </div>
+
+          <div class="range-row">
+            <input id="labor" type="range" min="0" max="15" step="1" value="0" />
+            <div class="value-pill"><span id="laborVal">0</span></div>
+          </div>
+          <div class="help">Set how many labor you need (0–15).</div>
+        </div>
+
+        <!-- Floor -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">🏢</span>
+            Floor (Pickup / Organization)
+            <small>0 = Ground, Max 20</small>
+          </div>
+
+          <div class="range-row">
+            <input id="floor" type="range" min="0" max="20" step="1" value="0" />
+            <div class="value-pill"><span id="floorVal">0</span></div>
+          </div>
+          <div class="help">0 means ground floor.</div>
+        </div>
+
+        <!-- Up/Down condition -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">⬆️⬇️</span>
+            Up / Down Condition
+            <small>Optional</small>
+          </div>
+
+          <div class="toggle">
+            <input id="upDownEnabled" type="checkbox" />
+            <label for="upDownEnabled" style="font-weight:900; color:var(--text); cursor:pointer;">
+              Enable Up/Down option
+            </label>
+          </div>
+
+          <div id="upDownBox" style="display:none; margin-top:12px;">
+            <div class="range-row">
+              <input id="upDownCount" type="range" min="0" max="10" step="1" value="0" />
+              <div class="value-pill"><span id="upDownVal">0</span></div>
+            </div>
+            <div class="help">Set up/down count (0–10).</div>
+          </div>
+        </div>
+
+        <!-- Shipment time + note + customer + locations -->
+        <div class="board-sec">
+          <div class="sec-title">
+            <span class="ico" aria-hidden="true">⏰</span>
+            Shipment Time & Details
+            <small>Emergency if &lt; 7 hours</small>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pickupTime">Pickup date & time</label>
+              <input id="pickupTime" type="datetime-local" />
+            </div>
+            <div class="field">
+              <label for="note">Extra note (optional)</label>
+              <textarea id="note" placeholder="Pickup address details, item details, etc."></textarea>
+            </div>
+          </div>
+
+          <!-- From / To location -->
+          <div class="field-row" style="margin-top:12px;">
+            <div class="field">
+              <label for="fromLocation">From Location (Pickup)</label>
+              <input id="fromLocation" type="text" placeholder="e.g., Mirpur 10, Dhaka" autocomplete="street-address" />
+            </div>
+
+            <div class="field">
+              <label for="toLocation">To Location (Drop)</label>
+              <input id="toLocation" type="text" placeholder="e.g., Dhanmondi 27, Dhaka" autocomplete="street-address" />
+            </div>
+          </div>
+
+          <div id="mapPreview" class="map-preview" aria-live="polite"></div>
+
+          <!-- Customer info -->
+          <div class="field-row" style="margin-top:12px;">
+            <div class="field">
+              <label for="customerName">Customer Name</label>
+              <input id="customerName" type="text" placeholder="Your name" autocomplete="name" />
+            </div>
+
+            <div class="field">
+              <label for="customerWhatsApp">Customer WhatsApp Number (optional)</label>
+              <input id="customerWhatsApp" type="tel" placeholder="+8801XXXXXXXXX" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="help">
+            Tip: WhatsApp does not allow websites to read your WhatsApp profile name automatically.
+            So please type your name here, and it will be added to the order message.
+          </div>
+
+          <div id="timeWarn" class="warn" style="margin-top:12px;">
+            Your pickup time is within <strong>7 hours</strong>. For emergency orders, extra charge may apply.
+            Select <strong>Arafat Hossain (Emergency)</strong> in the next step.
+          </div>
+        </div>
+
+        <div class="board-actions">
+          <div class="warn" id="reqWarn"></div>
+
+          <button class="btn primary" id="openWhatsApp" type="button">
+            Order in WhatsApp
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal: choose contact -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="Select contact for WhatsApp order">
+    <div class="modal card">
+      <h2>Select Contact</h2>
+      <p>
+        Choose who you want to contact on WhatsApp. If your shipment time is within <strong>7 hours</strong>,
+        use the Emergency option (extra charge may apply).
+      </p>
+
+      <div class="contact-list">
+        <button class="contact-btn" type="button" id="contactEmergency">
+          <strong>For Emergency Order — Arafat Hossain</strong>
+          <span>
+            Use when customer have before <strong>7h</strong> of shipment time (extra charge need to pay).<br>
+            WhatsApp: +880 1895-432840
+          </span>
+          <span class="tag bad" id="emergencyTag">Emergency</span>
+        </button>
+
+        <button class="contact-btn" type="button" id="contactNormal">
+          <strong>Standard Order — Abu Rayhan</strong>
+          <span>
+            Regular orders / normal time.<br>
+            WhatsApp: +880 1748-834165
+          </span>
+          <span class="tag good" id="normalTag">Recommended (Normal)</span>
+        </button>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" type="button" id="closeModal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- State ----------
+    const state = {
+      shipmentType: null,
+      truckTon: null,
+      labor: 0,
+      floor: 0,
+      upDownEnabled: false,
+      upDownCount: 0,
+      pickupTime: "",
+      note: "",
+      customerName: "",
+      customerWhatsApp: "",
+      fromLocation: "",
+      toLocation: ""
+    };
+
+    // ---------- Pick button groups ----------
+    function setupPickGroup(attrName){
+      const group = document.querySelector(`[data-pick="${attrName}"]`);
+      const buttons = Array.from(group.querySelectorAll(".pick-btn"));
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          state[attrName] = btn.dataset.value;
+          hideReqWarn();
+        });
+      });
+    }
+    setupPickGroup("shipmentType");
+    setupPickGroup("truckTon");
+
+    // ---------- Range inputs ----------
+    const labor = document.getElementById("labor");
+    const laborVal = document.getElementById("laborVal");
+    labor.addEventListener("input", () => {
+      state.labor = Number(labor.value);
+      laborVal.textContent = state.labor;
+    });
+
+    const floor = document.getElementById("floor");
+    const floorVal = document.getElementById("floorVal");
+    floor.addEventListener("input", () => {
+      state.floor = Number(floor.value);
+      floorVal.textContent = state.floor;
+    });
+
+    const upDownEnabled = document.getElementById("upDownEnabled");
+    const upDownBox = document.getElementById("upDownBox");
+    const upDownCount = document.getElementById("upDownCount");
+    const upDownVal = document.getElementById("upDownVal");
+
+    upDownEnabled.addEventListener("change", () => {
+      state.upDownEnabled = upDownEnabled.checked;
+      upDownBox.style.display = state.upDownEnabled ? "block" : "none";
+      if(!state.upDownEnabled){
+        state.upDownCount = 0;
+        upDownCount.value = "0";
+        upDownVal.textContent = "0";
+      }
+    });
+
+    upDownCount.addEventListener("input", () => {
+      state.upDownCount = Number(upDownCount.value);
+      upDownVal.textContent = state.upDownCount;
+    });
+
+    // ---------- Customer inputs (cannot auto-read from WhatsApp) ----------
+    const customerNameEl = document.getElementById("customerName");
+    const customerWhatsAppEl = document.getElementById("customerWhatsApp");
+
+    customerNameEl.value = localStorage.getItem("mxb_customerName") || "";
+    customerWhatsAppEl.value = localStorage.getItem("mxb_customerWhatsApp") || "";
+
+    state.customerName = customerNameEl.value.trim();
+    state.customerWhatsApp = customerWhatsAppEl.value.trim();
+
+    customerNameEl.addEventListener("input", () => {
+      state.customerName = customerNameEl.value.trim();
+      localStorage.setItem("mxb_customerName", state.customerName);
+      hideReqWarn();
+    });
+
+    customerWhatsAppEl.addEventListener("input", () => {
+      state.customerWhatsApp = customerWhatsAppEl.value.trim();
+      localStorage.setItem("mxb_customerWhatsApp", state.customerWhatsApp);
+    });
+
+    // ---------- From / To location + Google Maps directions link ----------
+    const fromLocationEl = document.getElementById("fromLocation");
+    const toLocationEl = document.getElementById("toLocation");
+    const mapPreview = document.getElementById("mapPreview");
+
+    fromLocationEl.value = localStorage.getItem("mxb_fromLocation") || "";
+    toLocationEl.value = localStorage.getItem("mxb_toLocation") || "";
+
+    state.fromLocation = fromLocationEl.value.trim();
+    state.toLocation = toLocationEl.value.trim();
+
+    function buildMapsDirectionsLink(from, to){
+      if(!from || !to) return "";
+      return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(from)}&destination=${encodeURIComponent(to)}`;
+    }
+
+    function updateMapPreview(){
+      const from = fromLocationEl.value.trim();
+      const to = toLocationEl.value.trim();
+      state.fromLocation = from;
+      state.toLocation = to;
+
+      localStorage.setItem("mxb_fromLocation", from);
+      localStorage.setItem("mxb_toLocation", to);
+
+      const link = buildMapsDirectionsLink(from, to);
+      if(link){
+        mapPreview.classList.add("show");
+        mapPreview.innerHTML = `Google Maps Route: <a href="${link}" target="_blank" rel="noopener noreferrer">Open directions</a>`;
+      } else {
+        mapPreview.classList.remove("show");
+        mapPreview.innerHTML = "";
+      }
+    }
+
+    fromLocationEl.addEventListener("input", updateMapPreview);
+    toLocationEl.addEventListener("input", updateMapPreview);
+    updateMapPreview();
+
+    // ---------- Time check (< 7 hours) ----------
+    const pickupTime = document.getElementById("pickupTime");
+    const note = document.getElementById("note");
+    const timeWarn = document.getElementById("timeWarn");
+
+    function hoursDiffFromNow(dateStr){
+      if(!dateStr) return null;
+      const dt = new Date(dateStr);
+      if(isNaN(dt.getTime())) return null;
+      const diffMs = dt.getTime() - Date.now();
+      return diffMs / (1000*60*60);
+    }
+
+    function updateTimeWarning(){
+      const hrs = hoursDiffFromNow(pickupTime.value);
+      if(hrs !== null && hrs > 0 && hrs < 7){
+        timeWarn.classList.add("show");
+      } else {
+        timeWarn.classList.remove("show");
+      }
+    }
+
+    pickupTime.addEventListener("change", () => {
+      state.pickupTime = pickupTime.value;
+      updateTimeWarning();
+    });
+
+    note.addEventListener("input", () => state.note = note.value);
+
+    // ---------- Required warning ----------
+    const reqWarn = document.getElementById("reqWarn");
+    function showReqWarn(messageHtml){
+      reqWarn.innerHTML = messageHtml || "Please fill required fields.";
+      reqWarn.classList.add("show");
+    }
+    function hideReqWarn(){
+      reqWarn.classList.remove("show");
+      reqWarn.innerHTML = "";
+    }
+
+    // ---------- Modal ----------
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const openWhatsAppBtn = document.getElementById("openWhatsApp");
+    const closeModalBtn = document.getElementById("closeModal");
+    const contactEmergency = document.getElementById("contactEmergency");
+    const contactNormal = document.getElementById("contactNormal");
+    const emergencyTag = document.getElementById("emergencyTag");
+    const normalTag = document.getElementById("normalTag");
+
+    function openModal(){
+      modalBackdrop.classList.add("open");
+
+      const hrs = hoursDiffFromNow(pickupTime.value);
+      const emergencyRecommended = (hrs !== null && hrs > 0 && hrs < 7);
+
+      emergencyTag.classList.remove("good","bad");
+      normalTag.classList.remove("good","bad");
+
+      if(emergencyRecommended){
+        emergencyTag.textContent = "Recommended (Emergency)";
+        emergencyTag.classList.add("good");
+
+        normalTag.textContent = "Standard (Normal)";
+        normalTag.classList.add("bad");
+      } else {
+        emergencyTag.textContent = "Emergency";
+        emergencyTag.classList.add("bad");
+
+        normalTag.textContent = "Recommended (Normal)";
+        normalTag.classList.add("good");
+      }
+    }
+
+    function closeModal(){ modalBackdrop.classList.remove("open"); }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+    // ---------- WhatsApp send ----------
+    const CONTACTS = {
+      arafat: { name: "Arafat Hossain", phoneDigits: "8801895432840" },
+      abu:    { name: "Abu Rayhan",     phoneDigits: "8801748834165" }
+    };
+
+    function buildOrderText(selectedContactName){
+      const pickupReadable = pickupTime.value
+        ? new Date(pickupTime.value).toLocaleString()
+        : "Not set";
+
+      const hrs = hoursDiffFromNow(pickupTime.value);
+      const within7 = (hrs !== null && hrs > 0 && hrs < 7) ? "YES (Emergency)" : "No/Not sure";
+
+      const upDownText = state.upDownEnabled
+        ? `Enabled (Count: ${state.upDownCount})`
+        : "Disabled";
+
+      const mapsLink = buildMapsDirectionsLink(state.fromLocation, state.toLocation);
+
+      const lines = [
+        "Move Xpress BD — Order Request",
+        "--------------------------------",
+        `Customer Name: ${state.customerName || "Not provided"}`,
+        `Customer WhatsApp: ${state.customerWhatsApp || "Not provided"}`,
+        "--------------------------------",
+        `From (Pickup): ${state.fromLocation || "Not provided"}`,
+        `To (Drop): ${state.toLocation || "Not provided"}`,
+        `Google Maps Route: ${mapsLink || "Not generated (need From & To)"}`,
+        "--------------------------------",
+        `Shipment Type: ${state.shipmentType}`,
+        `Truck Category: ${state.truckTon} ton`,
+        `Labor Needed: ${state.labor}`,
+        `Floor: ${state.floor} (0=Ground)`,
+        `Up/Down: ${upDownText}`,
+        `Pickup Time: ${pickupReadable}`,
+        `Within 7 Hours?: ${within7}`,
+        `Note: ${note.value ? note.value.trim() : "—"}`,
+        "--------------------------------",
+        `Contact Selected: ${selectedContactName}`
+      ];
+
+      return lines.join("\n");
+    }
+
+    function openWhatsApp(phoneDigits, message){
+      const url = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    openWhatsAppBtn.addEventListener("click", () => {
+      if(!state.shipmentType || !state.truckTon){
+        showReqWarn('Please select <strong>Shipment Type</strong> and <strong>Truck Ton</strong> before sending WhatsApp order.');
+        return;
+      }
+
+      if(!state.customerName){
+        showReqWarn('Please enter <strong>Customer Name</strong> before sending WhatsApp order.');
+        customerNameEl.focus();
+        return;
+      }
+
+      // Locations are optional, but recommended:
+      // if(!state.fromLocation || !state.toLocation){
+      //   showReqWarn('Please enter <strong>From</strong> and <strong>To</strong> locations to generate Google Maps route link.');
+      //   return;
+      // }
+
+      hideReqWarn();
+      openModal();
+    });
+
+    contactEmergency.addEventListener("click", () => {
+      const msg = buildOrderText("Arafat Hossain (Emergency)");
+      openWhatsApp(CONTACTS.arafat.phoneDigits, msg);
+      closeModal();
+    });
+
+    contactNormal.addEventListener("click", () => {
+      const msg = buildOrderText("Abu Rayhan (Standard)");
+      openWhatsApp(CONTACTS.abu.phoneDigits, msg);
+      closeModal();
+    });
+
+    // init displayed values
+    document.getElementById("laborVal").textContent = labor.value;
+    document.getElementById("floorVal").textContent = floor.value;
+    document.getElementById("upDownVal").textContent = upDownCount.value;
+  </script>
+</body>
+</html>

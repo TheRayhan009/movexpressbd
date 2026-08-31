@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Founder Profile | Move Xpress BD</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070a12;
+      --text:#eaf0ff;
+      --muted:#a8b3d8;
+      --brand:#4f8cff;
+      --brand2:#8a5bff;
+      --ok:#22c55e;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(79,140,255,.30), transparent 60%),
+        radial-gradient(1000px 600px at 110% 0%, rgba(138,91,255,.26), transparent 60%),
+        radial-gradient(900px 500px at 50% 110%, rgba(34,197,94,.14), transparent 55%),
+        linear-gradient(180deg, #050713, #070a12 35%, #060813);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .container{width:min(1100px, 92vw); margin-inline:auto;}
+    .section{padding:64px 0;}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .chip{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:700;
+      font-size:13px;
+      flex-wrap:wrap;
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+      flex-shrink:0;
+      min-width: 220px;
+    }
+    nav ul{
+      display:flex;
+      gap:16px;
+      list-style:none;
+      padding:0;margin:0;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      color:var(--muted);
+      font-weight:800;
+      font-size:14px;
+      padding:10px 10px;
+      border-radius:12px;
+      transition: .2s ease;
+    }
+    nav a:hover{color:var(--text); background: rgba(255,255,255,.06);}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      font-weight:900;
+      font-size:14px;
+      transition: .2s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 45px rgba(79,140,255,.22);
+    }
+    .btn.ok{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--ok), #16a34a);
+      box-shadow: 0 18px 45px rgba(34,197,94,.18);
+    }
+
+    /* Profile hero */
+    .profile{
+      padding:26px;
+      overflow:hidden;
+      position:relative;
+    }
+    .profile::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 300px at 10% 0%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(520px 300px at 90% 30%, rgba(138,91,255,.14), transparent 62%);
+      pointer-events:none;
+    }
+    .profile > *{position:relative}
+    .profile-grid{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .photo{
+      border-radius: 20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      min-height: 320px;
+    }
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter: saturate(1.05) contrast(1.02);
+      transform: scale(1.02);
+    }
+    .meta h1{
+      margin:0;
+      font-size: clamp(26px, 3.6vw, 42px);
+      letter-spacing:-.6px;
+      line-height:1.1;
+    }
+    .role{
+      margin:10px 0 12px;
+      color: var(--muted);
+      font-weight:800;
+      line-height:1.6;
+    }
+    .bio{
+      margin:0 0 14px;
+      color: var(--text);
+      opacity: .92;
+      line-height:1.8;
+      font-weight:650;
+      max-width: 80ch;
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+
+    /* Content grid */
+    .content-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top: 18px;
+    }
+    .box{padding:18px;}
+    .box h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:-.2px;
+    }
+    .box p{
+      margin:0;
+      color: var(--muted);
+      font-weight:700;
+      line-height:1.7;
+    }
+    .list{
+      margin:10px 0 0;
+      padding:0 0 0 18px;
+      color: var(--muted);
+      font-weight:750;
+      line-height:1.9;
+    }
+
+    /* Timeline */
+    .timeline{
+      margin-top: 10px;
+      display:grid;
+      gap:10px;
+    }
+    .titem{
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+    .titem strong{display:block; font-size:14px;}
+    .titem span{display:block; margin-top:4px; color:var(--muted); font-weight:800; font-size:12px; line-height:1.6;}
+
+    /* Footer */
+    footer{
+      padding: 26px 0 44px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+    }
+    .foot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-weight:800;
+    }
+    .foot strong{color:var(--text)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      nav{display:none;}
+      .profile-grid{grid-template-columns: 1fr;}
+      .photo{min-height: 360px;}
+      .content-grid{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Back to Home">
+        <img
+          src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/772824230_122168481368965416_5657058058940570943_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s1254x1254&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF2SGiNrLPJ7iVH76eKLxsL94Rvb2UGux_3hG9vZQa7HwSH4IGZ0LNlMbG-zWDnbKNx_JZXXY7L45nTFPUfn_KB&_nc_ohc=eatLiCIDip4Q7kNvwHlrm_G&_nc_oc=AdrcjIMFn34LS0NsFwGGltDxw8ye5hANbdXeTAX-6jLkpZS8jPi5uUbo2Hhra5fVbiA&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=0_P99vBDj1wWTlYJcyjI6A&_nc_ss=7b2a8&oh=00_AQKNsZ-3-HxZ2_MeEhMoijlPWpj9Hf0io6eloeiGotF0lg&oe=6A99A86C"
+          alt="Move Xpress BD Logo"
+          style="
+            width:38px;height:38px;border-radius:12px;object-fit:cover;display:block;
+            box-shadow:0 14px 35px rgba(79,140,255,.25);
+            border:1px solid rgba(255,255,255,.14);
+            background:linear-gradient(135deg, #4f8cff, #8a5bff);
+          "
+        />
+        <div>
+          <div style="font-size:15px;line-height:1.1">Move Xpress BD</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:750;line-height:1.2">Founder Profile</div>
+        </div>
+      </a>
+
+      <nav aria-label="Founder navigation">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <a class="btn" href="/#founders">All Founders</a>
+        <a class="btn primary" href="/order">Order Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Profile Hero -->
+  <main class="section">
+    <div class="container">
+      <section class="profile card">
+        <div class="profile-grid">
+          <!-- Photo -->
+          <div class="photo" aria-label="Founder photo">
+            <!-- Replace image for the founder -->
+            <img
+              src="https://scontent.fdac13-1.fna.fbcdn.net/v/t39.30808-6/753241753_1066090015753335_8489591592419506834_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s1254x1254&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGbKsPYj1kRy3uRJ5AbM57End4DeXEGGcOd3gN5cQYZw6niVUxRvzEyI7DUleTUPFZmVHwHdqGXc_AkFo3UiOuF&_nc_ohc=daV2Yqo6tkIQ7kNvwGaNZnz&_nc_oc=Adp1ltQZhlr8wBjRLwxg9ilLIHwgp1ZB_UeGY4GKa-yssW1W7_LsT9bc-QY3fWsIq4VA&_nc_zt=23&_nc_ht=scontent.fdac13-1.fna&_nc_gid=_yAHfpQ5L9e5hMo19nfKjQ&_nc_ss=7b2a8&oh=00_AQJJe5FIjCwHwz3iNZLL3TzxyyCg_4pK563C08gc6LIvbw&oe=6A9974F7"
+              alt="Abu Rayhan"
+            />
+          </div>
+
+          <!-- Meta -->
+          <div class="meta">
+            <div class="chip">Founder • Management • Technical</div>
+
+            <h1>Abu Rayhan</h1>
+            <div class="role">Assistant CEO And Technical Manager — Move Xpress BD</div>
+
+            <p class="bio">
+              Hello, I am Rayhan. I am the Assistant CEO and Technical Manager of Move Xpress BD. For any help you can contact with me. Thank you.
+            </p>
+
+            <div class="actions" id="contact">
+              <!-- Replace WhatsApp number if needed -->
+              <a class="btn ok" href="https://wa.me/8801748834165" target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
+              <!-- Optional: add email -->
+              <a class="btn" href="mailto:therayhan009@gmail.com">Email</a>
+              <a class="btn primary" href="/order">Place an Order</a>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <span class="chip">Phone: +880 1748-834165</span>
+              <span class="chip">Location: Bangladesh</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Details -->
+      <section class="content-grid" style="margin-top:18px;">
+        <article id="about" class="box card">
+          <h2>About</h2>
+          <p>
+            At first, I told about this idea to my friend Arafat. Then we started our agency.
+          </p>
+
+          <ul class="list">
+            <li>Focus: service quality, customer support, on-time delivery.</li>
+            <li>Goal: build a reliable truck & van movement service across Bangladesh.</li>
+            <li>Works on: systems, tracking, and business operations.</li>
+          </ul>
+        </article>
+
+        <article id="work" class="box card">
+          <h2>Role & Responsibilities</h2>
+          
+
+          <div class="timeline">
+            <div class="titem">
+              <strong>Operations Support</strong>
+              <span>Helps manage orders, scheduling, Stay in touch with clients.</span>
+            </div>
+            <div class="titem">
+              <strong>Technical Management</strong>
+              <span>Website, order systems, and digital improvements.</span>
+            </div>
+            <div class="titem">
+              <strong>Order Trace</strong>
+              <span>Keep all information about client order.</span>
+            </div>
+          </div>
+        </article>
+
+        <article id="skills" class="box card">
+          <h2>Skills / Expertise</h2>
+         
+
+          <ul class="list">
+            <li>Programming</li>
+            <li>Examinee of math olympiad bangladesh</li>
+            <li>Musics</li>
+            <li>Team management</li>
+          </ul>
+        </article>
+
+        <article class="box card">
+          <h2>Achievements</h2>
+
+          <ul class="list">
+            <li>Helped complete many successful moves (home/office/shop).</li>
+            <li>Improved booking process and customer response time.</li>
+            <li>Expanded service coverage and operational stability.</li>
+          </ul>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div><strong>Move Xpress BD</strong> — Founder Profile Page</div>
+      <div>Developed &amp; Engineered by <strong>Tech Manager Abu Rayhan</strong></div>
+    </div>
+  </footer>
+</body>
+</html>

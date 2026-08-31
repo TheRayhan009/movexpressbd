@@ -3,8 +3,10 @@ from django.urls import reverse
 
 
 class StaticViewSitemap(Sitemap):
-    priority = 0.8
+
+    protocol = "https"
     changefreq = "weekly"
+    priority = 0.8
 
     def items(self):
         return [
